@@ -66,10 +66,10 @@ Install PyTorch ([pytorch.org](http://pytorch.org)) and download [ImageNet](http
 
 ### Single-node local training
 
-To pretrain VICReg with ResNet-50 on a single node with 8 GPUs for 100 epochs, run:
+To pretrain VICReg with MobileNetV2 on a single node with 4 GPUs for 100 epochs, run:
 
 ```
-python -m torch.distributed.launch --nproc_per_node=8 main_vicreg.py --data-dir /path/to/imagenet/ --exp-dir /path/to/experiment/ --arch resnet50 --epochs 100 --batch-size 512 --base-lr 0.3
+python -m torch.distributed.launch --nproc_per_node=4 main_vicreg.py --data-dir /scratch/datasets/imagenet/ --exp-dir /path/to/experiment/ --arch mobilenetv2 --epochs 100 --batch-size 256 --base-lr 0.3
 ```
 
 ### Multi-node training with SLURM
@@ -85,10 +85,10 @@ python run_with_submitit.py --nodes 4 --ngpus 8 --data-dir /path/to/imagenet --e
 
 ### Linear evaluation
 
-To evaluate a pretrained ResNet-50 backbone on linear classification on ImageNet, run:
+To evaluate a pretrained MobileNetV2 backbone on linear classification on ImageNet, run:
 
 ```
-python evaluate.py --data-dir /path/to/imagenet/ --pretrained /path/to/checkpoint/resnet50.pth --exp-dir /path/to/experiment/ --lr-head 0.02
+python evaluate.py --data-dir /scratch/datasets/imagenet/ --pretrained /path/to/checkpoint/mobilenetv2.pth --exp-dir /path/to/experiment/ --lr-head 0.02
 ```
 
 ### Semi-supervised evaluation

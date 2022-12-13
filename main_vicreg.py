@@ -128,6 +128,8 @@ def main(args):
     scaler = torch.cuda.amp.GradScaler()
     for epoch in range(start_epoch, args.epochs):
         sampler.set_epoch(epoch)
+
+        # x,y are the same image batch, with two different random augmentations
         for step, ((x, y), _) in enumerate(loader, start=epoch * len(loader)):
             x = x.cuda(gpu, non_blocking=True)
             y = y.cuda(gpu, non_blocking=True)
@@ -186,9 +188,7 @@ class VICReg(nn.Module):
         super().__init__()
         self.args = args
         self.num_features = int(args.mlp.split("-")[-1])
-        self.backbone, self.embedding = resnet.__dict__[args.arch](
-            zero_init_residual=True
-        )
+        self.backbone, self.embedding = torch.hub.load('pytorch/vision', 'mobilenet_v2', pretrained=False), 1000
         self.projector = Projector(args, self.embedding)
 
     def forward(self, x, y):

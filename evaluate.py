@@ -22,6 +22,8 @@ import torch
 
 import resnet
 
+def exclude_bias_and_norm(p):
+    return p.ndim == 1
 
 def get_arguments():
     parser = argparse.ArgumentParser(
@@ -138,7 +140,9 @@ def main_worker(gpu, args):
     torch.cuda.set_device(gpu)
     torch.backends.cudnn.benchmark = True
 
-    backbone, embedding = resnet.__dict__[args.arch](zero_init_residual=True)
+    # backbone, embedding = resnet.__dict__[args.arch](zero_init_residual=True)
+
+    backbone, embedding = torch.hub.load('pytorch/vision', 'mobilenet_v2', pretrained=False), 1000
     state_dict = torch.load(args.pretrained, map_location="cpu")
     if "model" in state_dict:
         state_dict = state_dict["model"]
