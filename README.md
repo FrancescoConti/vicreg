@@ -72,12 +72,12 @@ To pretrain VICReg with MobileNetV2 on a single node with 4 GPUs for 100 epochs,
 python -m torch.distributed.launch --nproc_per_node=4 main_vicreg.py --data-dir /scratch/datasets/imagenet/ --exp-dir /path/to/experiment/ --arch mobilenetv2 --epochs 100 --batch-size 256 --base-lr 0.3
 ```
 
-### Multi-node training with SLURM
+### Multi-node training with SLURM (DGX)
 
 To pretrain VICReg with [submitit](https://github.com/facebookincubator/submitit) (`pip install submitit`) and SLURM on 4 nodes with 8 GPUs each for 1000 epochs, run:
 
 ```
-python run_with_submitit.py --nodes 4 --ngpus 8 --data-dir /path/to/imagenet --exp-dir /path/to/experiment/ --arch resnet50 --epochs 1000 --batch-size 2048 --base-lr 0.2
+python run_with_submitit.py --nodes 2 --ngpus 8 --data-dir $DATA_ILSVRC2012 --exp-dir experiment_slurm --arch mobilenetv2 --epochs 1000 --batch-size 2048 --base-lr 0.2
 ```
 
 
